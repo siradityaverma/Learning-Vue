@@ -12,6 +12,7 @@
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-vue": "^0.8.1",
     "vue": "^2.6.10",
+    "vue-lodash": "^2.0.2",
     "vue-progressive-image": "^3.2.0",
     "vue-router": "^3.0.3"
   },
