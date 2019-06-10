@@ -31,15 +31,15 @@
     <div class="twelve wide column">
         <div v-for="(jobs, title) in filteredJobs" class="ui segments">
             <div class="ui segment">
-                <h5>{{title}}</h5>
+                <h4><i class="circle outline icon"></i> {{title}}</h4>
             </div>
-            <div v-for="job in jobs" class="ui segment">
+            <div v-for="job in jobs" class="ui segment job-list">
                 <h3>{{job.title}}</h3>
-                <span>{{job.locations[0]}}</span>
+                <span class="sub">{{job.locations[0]}}</span>
                 <span data-v-e6b04304="" class="description-fields-separator"> · </span>
-                <span>{{job.min_exp}} - {{job.max_exp }}</span>
+                <span class="sub">{{job.min_exp}} - {{job.max_exp }}</span>
                 <span data-v-e6b04304="" class="description-fields-separator"> · </span>
-                <span>{{job.job_type}}</span>
+                <span class="sub">{{job.job_type}}</span>
             </div>
         </div>
     </div>
@@ -126,4 +126,22 @@ export default {
     }
 };
 </script>
-
+<style lang="sass">
+.ui.stackable
+    padding-top: 20px
+.ui.icon.input>input 
+    padding-right: 0em!important
+.ui.checkbox
+    margin-top: 7px
+.circle.outline
+    color: rgb(0, 141, 234)
+    font-size: 13px
+.ui.segment.job-list
+    cursor: pointer
+    &:hover
+        background-color: #cce2ff
+        h3
+            color: #268ee8
+    .sub
+        color: #888
+</style>

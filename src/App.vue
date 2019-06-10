@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app">
     <Header />
     <Hero />
     <Listings />
@@ -18,3 +18,7 @@ export default {
   }
 };
 </script>
+<style lang="sass">
+.app 
+  background-color: #f1f4f9
+</style>
