@@ -1,17 +1,25 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png"/>
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="app">
+    <Header />
+    <Hero />
+    <Listings />
   </div>
 </template>
-
 <script>
-import HelloWorld from "@/components/HelloWorld.vue";
+import Header from "../components/Header";
+import Hero from "../components/Hero";
+import Listings from "../components/Listings";
 
 export default {
-  name: "Home",
+  name: 'home',
   components: {
-    HelloWorld
+    Header,
+    Hero,
+    Listings
   }
 };
 </script>
+<style lang="sass">
+.app 
+  background-color: #f1f4f9
+</style>
