@@ -29,10 +29,17 @@
         </sui-card>
     </div>
     <div class="twelve wide column">
-        <div v-for="(jobs, title) in filteredJobs" >
-            <h1>{{title}}</h1>
-            <div v-for="job in jobs">
-                {{job.title}}
+        <div v-for="(jobs, title) in filteredJobs" class="ui segments">
+            <div class="ui segment">
+                <h5>{{title}}</h5>
+            </div>
+            <div v-for="job in jobs" class="ui segment">
+                <h3>{{job.title}}</h3>
+                <span>{{job.locations[0]}}</span>
+                <span data-v-e6b04304="" class="description-fields-separator"> · </span>
+                <span>{{job.min_exp}} - {{job.max_exp }}</span>
+                <span data-v-e6b04304="" class="description-fields-separator"> · </span>
+                <span>{{job.job_type}}</span>
             </div>
         </div>
     </div>
@@ -41,6 +48,8 @@
 
 <script>
 import source from '../data.json';
+import moment from 'moment';
+
 export default {
     name: 'Listings',
     data() {
@@ -57,6 +66,15 @@ export default {
     },
     created() {
         this.getJobs();
+    },
+    filters: {
+        fromNow(date) {
+            moment.startOf('date', 'months').fromNow()
+        },
+        format(date) {
+            console.log(date)
+            return moment.format(date, 'YY')
+        }
     },
     computed:{
         filteredJobs() {
@@ -102,7 +120,6 @@ export default {
                 this.types = res.fil_job_types;
                 this.locations = res.fil_locations;
                 this.categories.map(c => res.data[c].jobs.map(d => data.push(d)));
-                console.log(data)
                 this.jobs = data;
             });
         }
