@@ -6,14 +6,15 @@
         <h2 v-else>1 Opening</h2>
     </div>
     <div class="sixteen wide column">
-        <span v-for="category in checkedCategories">{{category}}  </span>
-        <span v-for="location in checkedLocations">{{location}}  </span>
-        <span v-for="type in checkedTypes">{type}}  </span>
+        <span v-for="category in checkedCategories" class="filter-label">{{category}} <i class="times icon" @click="removeCategory(category)" /> </span>
+        <span v-for="location in checkedLocations" class="filter-label">{{location}}  <i class="times icon" @click="removeLocation(location)" /></span>
+        <span v-for="type in checkedTypes" class="filter-label">{type}}  <i class="times icon" @click="removeType(type)" /></span>
     </div>
     <div class="four wide column">
         <sui-card>
-            <sui-card-content>
-            <sui-card-meta>FILTER BY</sui-card-meta>
+            <sui-card-content class="card-filter">
+                <sui-card-meta>FILTER BY</sui-card-meta>
+                <a v-if="checkedCategories.length > 0 || checkedLocations.length > 0 || checkedTypes.length > 0" @click="clearFilters"><i class="undo icon" /> Reset</a>
             </sui-card-content>
             <sui-card-content>
                 <div class="filter-header">
@@ -67,13 +68,18 @@
                 <h4><i class="genderless icon"></i> {{title}}</h4>
             </div>
             <div v-for="job in jobs" class="ui segment job-list">
-                <div @click="navigate(job.slug)">
-                    <h3>{{job.title}}</h3>
-                    <span class="sub">{{job.locations[0]}}</span>
-                    <span data-v-e6b04304="" class="description-fields-separator"> · </span>
-                    <span class="sub">{{job.min_exp}} - {{job.max_exp }}</span>
-                    <span data-v-e6b04304="" class="description-fields-separator"> · </span>
-                    <span class="sub">{{job.job_type}}</span>
+                <div @click="navigate(job.slug)" class="clickable-job">
+                    <div>
+                        <h3>{{job.title}}</h3>
+                        <span class="sub">{{job.locations[0]}}</span>
+                        <span data-v-e6b04304="" class="description-fields-separator"> · </span>
+                        <span class="sub">{{job.min_exp | moment}} - {{job.max_exp | moment}} Years</span>
+                        <span data-v-e6b04304="" class="description-fields-separator"> · </span>
+                        <span class="sub">{{job.job_type}}</span>
+                    </div>
+                
+                    <span class="sub created-at">{{job.created_at | fromNow }}</span>
+                   
                 </div>
             </div>
         </div>
@@ -107,12 +113,11 @@ export default {
         this.getJobs();
     },
     filters: {
-        fromNow(date) {
-            moment.startOf('date', 'months').fromNow()
+        moment (date) {
+            return parseInt(date) / 12;
         },
-        format(date) {
-            console.log(date)
-            return moment.format(date, 'YY')
+        fromNow (date) {
+            return moment(date).fromNow();
         }
     },
     computed:{
@@ -159,6 +164,18 @@ export default {
         },
         toggleType() {
             this.showType = !this.showType
+        }, 
+        clearFilters() {
+            this.checkedLocations = this.checkedCategories = this.checkedTypes = [];
+        },
+        removeCategory(value) {
+            this.checkedCategories = this.checkedCategories.filter(item => item !== value);
+        },
+        removeLocation(value) {
+            this.checkedLocations = this.checkedLocations.filter(item => item !== value);
+        },
+        removeTypes(value) {
+            this.TypesLocations = this.checkedTypes.filter(item => item !== value);
         },
         getJobs() {
             this.loading = true;
@@ -177,6 +194,9 @@ export default {
         },
         navigate(slug) {
             router.push(`/jobs/${slug}`)
+        },
+        moment () {
+            return moment();
         }
     }
 };
@@ -194,6 +214,15 @@ export default {
 .genderless
     color: rgb(0, 141, 234)
     font-size: 13px
+.card-filter
+    display: flex
+    justify-content: space-between
+    width: 100%
+    .meta
+        width: 50%
+    a
+        text-align: right
+        width: 50%
 .filter-header
     display: flex
     flex-direction: row
@@ -207,6 +236,27 @@ export default {
         background-color: #cce2ff
         h3
             color: #268ee8
-    .sub
-        color: #888
+    .clickable-job
+        display: flex
+        justify-content: space-between
+        .created-at
+            font-size: 12px;
+            align-self: flex-end!important;
+        .sub
+            color: #777
+.filter-label
+    display: inline-block;
+    list-style: none;
+    position: relative;
+    background-color: #fff;
+    text-transform: capitalize;
+    color: #3e4152;
+    cursor: default;
+    font-size: 12px;
+    padding: 4px 5px 4px 12px;
+    border-radius: 50px
+    margin: 5px
+    i
+        &:hover
+            cursor: pointer
 </style>
