@@ -8,16 +8,17 @@
 <script>
 import Hero from "../components/Hero";
 import Listings from "../components/Listings";
-
+import Header from "../components/Header";
 export default {
-  name: 'home',
+  name: "Home",
   components: {
+    Header,
     Hero,
     Listings
   }
 };
 </script>
 <style lang="sass">
-.app 
+.app
   background-color: #f1f4f9
 </style>
